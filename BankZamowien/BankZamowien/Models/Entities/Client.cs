@@ -17,6 +17,7 @@ namespace BankZamowien.Models.Entities
         public string Telefon { get; set; }
         [EmailAddress]
         public string Email { get; set; }
+        public bool IsNonAnsweredInquiry { get; set; }
         public virtual IEnumerable<Inquiry> InquiryList { get; set; }
     }
 }

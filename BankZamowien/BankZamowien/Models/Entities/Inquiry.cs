@@ -18,6 +18,7 @@ namespace BankZamowien.Models.Entities
         public DateTime ExpireDate { get; set; }
         public DateTime CreateInquiryDate { get; set; }
         public int ClientID { get; set; }
+        public bool IsAnswered { get; set; }
         public virtual Client Client { get; set; }
         public virtual IEnumerable<Message> MessageList { get; set;}
     }

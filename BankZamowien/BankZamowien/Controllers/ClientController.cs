@@ -16,9 +16,18 @@ namespace BankZamowien.Controllers
         private BankZamowienDbContext db = new BankZamowienDbContext();
 
         // GET: Client
-        public ActionResult Index()
+        public ActionResult Index(string searchString, bool search_OnlyNoAnswer = false)
         {
-            return View(db.Clients.ToList());
+            var clients = db.Clients.ToList();
+            if (!String.IsNullOrWhiteSpace(searchString))
+            {
+                clients = clients.Where(c => (c.Nazwisko.Contains(searchString)) || (c.Imie.Contains(searchString))).ToList();
+            }
+            if(search_OnlyNoAnswer)
+            {
+                clients = clients.Where(c => c.IsNonAnsweredInquiry == true).ToList();
+            }
+            return View(clients);
         }
 
         // GET: Client/Details/5

@@ -10,6 +10,7 @@ using BankZamowien.DAL;
 using BankZamowien.Models;
 using BankZamowien.Models.Entities;
 using BankZamowien.Models.ViewModels;
+using BankZamowien.Models;
 
 namespace BankZamowien.Controllers
 {
@@ -19,10 +20,18 @@ namespace BankZamowien.Controllers
         private BankZamowienDbContext db = new BankZamowienDbContext();
 
         // GET: Inquiries
-        public ActionResult Index()
+        public ActionResult Index(string searchString, bool search_All = false)
         {
             var inquiries = db.Inquiries.Include(i => i.Client);
-
+            if(!String.IsNullOrWhiteSpace(searchString))
+            {
+                inquiries = inquiries.Where(i => (i.Client.Nazwisko.Contains(searchString)) || (i.Client.Imie.Contains(searchString)) || (i.Client.Email.Contains(searchString))
+                                                    || (i.Client.Telefon.Contains(searchString)) || (i.RefNumber.Contains(searchString)));
+            }
+            if(!search_All)
+            {
+                inquiries = inquiries.Where(i => (i.IsAnswered == false));
+            }
             List<InquiryListViewModel> viewModel = new List<InquiryListViewModel>();
             foreach(var item in inquiries)
             {
@@ -55,7 +64,7 @@ namespace BankZamowien.Controllers
         }
 
         // GET: Inquiries/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
             return View();
         }
@@ -102,6 +111,7 @@ namespace BankZamowien.Controllers
                 msg.CreateMessageDate = DateTime.Now;
                 inquiry.MessageList = new List<Message>();
                 inquiry.MessageList.ToList().Add(msg);
+                client.IsNonAnsweredInquiry = true;
                 db.Inquiries.Add(inquiry);
                 db.Messages.Add(msg);
                 db.SaveChanges();

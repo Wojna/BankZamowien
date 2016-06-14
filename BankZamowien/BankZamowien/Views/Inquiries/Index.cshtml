@@ -9,6 +9,19 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+@using (Html.BeginForm("Index", "Inquiries", FormMethod.Get))
+{
+    <div style="display:inline">
+        <p>
+            Wyszukaj: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)            
+
+            <label>Wszystkie zapytania</label>
+            @Html.CheckBox("search_All")
+
+            <input type="submit" value="Search" />
+        </p>
+    </div>
+}
 <table class="table">
     <tr>
         <th>
