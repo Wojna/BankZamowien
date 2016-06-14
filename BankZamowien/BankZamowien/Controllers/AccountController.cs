@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using BankZamowien.DAL;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -19,8 +21,31 @@ namespace BankZamowien.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         public AccountController()
         {
+        }
+
+        public ActionResult UserList()
+        {
+            var context = new ApplicationDbContext();
+            var users = context.Users.ToList();
+            List<DisplayUserList> usrlist = new List<DisplayUserList>();
+            foreach (var item in users)
+            {
+                DisplayUserList tmp = new DisplayUserList();
+                tmp.Email = item.Email;
+                tmp.Id = item.Id;
+                tmp.Imie = item.Imie;
+                tmp.Nazwisko = item.Nazwisko;
+                
+                usrlist.Add(tmp);
+            }
+
+            return View(usrlist);
+
+
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -143,6 +168,12 @@ namespace BankZamowien.Controllers
             return View();
         }
 
+        
+        public ActionResult RegisterNew()
+        {
+            return View();
+        }
+
         //
         // POST: /Account/Register
         [HttpPost]
@@ -152,7 +183,7 @@ namespace BankZamowien.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email,Imie = model.Imie, Nazwisko = model.Nazwisko};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -172,6 +203,50 @@ namespace BankZamowien.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+        //
+        public ActionResult RemoveUser(string id)
+        {
+
+            var user = db.Users.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            db.Users.Remove(user);
+               db.SaveChanges();
+            return RedirectToAction("UserList");
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterNew(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Imie = model.Imie, Nazwisko = model.Nazwisko };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+
+                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    return RedirectToAction("UserList", "Account");
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+
 
         //
         // GET: /Account/ConfirmEmail
