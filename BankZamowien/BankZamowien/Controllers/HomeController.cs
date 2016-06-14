@@ -26,5 +26,7 @@ namespace BankZamowien.Controllers
 
             return View();
         }
+
+
     }
 }

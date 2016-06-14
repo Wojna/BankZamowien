@@ -23,6 +23,8 @@ namespace BankZamowien.Models
         public bool RememberMe { get; set; }
     }
 
+
+
     public class VerifyCodeViewModel
     {
         [Required]
@@ -46,6 +48,17 @@ namespace BankZamowien.Models
         public string Email { get; set; }
     }
 
+    public class DisplayUserList
+    {
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+        public string Id { get; set; }
+        public string Imie { get; set; }
+        public string Nazwisko { get; set; }
+       
+    }
+
     public class LoginViewModel
     {
         [Required]
@@ -65,6 +78,13 @@ namespace BankZamowien.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "Imie")]
+        public string Imie { get; set; }
+        [Required]
+        [Display(Name = "Nazwisko")]
+        public string Nazwisko { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -79,6 +99,8 @@ namespace BankZamowien.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+       
     }
 
     public class ResetPasswordViewModel

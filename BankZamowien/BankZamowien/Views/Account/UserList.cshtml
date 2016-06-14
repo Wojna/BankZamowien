@@ -1,0 +1,45 @@
+﻿@model List<BankZamowien.Models.DisplayUserList>
+@{
+    ViewBag.Title = "User List";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table">
+    <tr>
+
+        <th>
+            Imie
+        </th>
+        <th>
+            Nazwisko
+        </th>
+        <th>
+            User Email
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Imie)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nazwisko)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.ActionLink("Remove User", "RemoveUser", new { id = item.Id })
+            </td>
+        </tr>
+    }
+    </table>
+<input type="button" class="btn btn-default" value="Add another user" onclick="@("window.location.href='" + @Url.Action("RegisterNew", "Account") + "'");" />
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
