@@ -13,15 +13,31 @@ using Microsoft.Owin.Security;
 using BankZamowien.Models;
 using BankZamowien.DAL;
 using BankZamowien.Models.Entities;
+using System.Net.Mail;
 
 namespace BankZamowien
 {
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        public async Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+
+            MailMessage email = new MailMessage(new MailAddress("noreply@myproject.com", "(do not reply)"),
+                new MailAddress(message.Destination));
+
+            email.Subject = message.Subject;
+            email.Body = message.Body;
+
+            email.IsBodyHtml = true;
+
+            using (var mailClient = new BankZamowien.Infrastructure.GmailEmailService())
+            {
+                //In order to use the original from email address, uncomment this line:
+                //email.From = new MailAddress(mailClient.UserName, "(do not reply)");
+
+                await mailClient.SendMailAsync(email);
+            }
+
         }
     }
 
