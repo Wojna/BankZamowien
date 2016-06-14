@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -9,7 +10,11 @@ namespace BankZamowien.Models.Entities
     {
         public int Id { get; set; }
         public string RefNumber { get; set; }
+        [Display(Name = "Priorytet")]
         public Priority Priority { get; set; }
+        [Display(Name="Termin")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = " {0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime ExpireDate { get; set; }
         public DateTime CreateInquiryDate { get; set; }
         public int ClientID { get; set; }

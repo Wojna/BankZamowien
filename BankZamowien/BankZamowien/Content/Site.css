@@ -22,3 +22,15 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.priorytet-Red{
+    background-color:lightcoral;
+}
+
+.priorytet-Yellow{
+    background-color:lemonchiffon
+}
+
+.priorytet-Green{
+    background-color:lightgreen
+}

@@ -1,0 +1,58 @@
+﻿@model BankZamowien.Models.Entities.Inquiry
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Inquiry</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Client.Imie)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Client.Imie)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RefNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RefNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Priority)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Priority)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExpireDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExpireDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateInquiryDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreateInquiryDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

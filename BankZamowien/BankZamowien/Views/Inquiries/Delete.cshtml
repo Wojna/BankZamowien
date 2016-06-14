@@ -1,0 +1,64 @@
+﻿@model BankZamowien.Models.Entities.Inquiry
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Inquiry</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Client.Imie)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Client.Imie)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RefNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RefNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Priority)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Priority)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExpireDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExpireDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateInquiryDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreateInquiryDate)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
