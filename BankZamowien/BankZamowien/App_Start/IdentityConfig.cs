@@ -11,6 +11,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using BankZamowien.Models;
+using BankZamowien.DAL;
+using BankZamowien.Models.Entities;
 
 namespace BankZamowien
 {
