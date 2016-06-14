@@ -12,6 +12,7 @@ namespace BankZamowien.Models.ViewModels
         [Display(Name = "Priorytet")]
         public Priority Priority { get; set; }
         [Display(Name = "Termin")]
+
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = " {0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime ExpireDate { get; set; }

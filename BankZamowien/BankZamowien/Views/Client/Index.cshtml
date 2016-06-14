@@ -9,6 +9,20 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+@using (Html.BeginForm("Index", "Client", FormMethod.Get))
+{
+    <div style="display:inline">
+        <p>
+            Wyszukaj: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+
+            <label>Klienci oczekujący na odpowiedź</label>
+            @Html.CheckBox("search_OnlyNoAnswer")
+
+            <input type="submit" value="Search" />
+        </p>
+    </div>
+}
 <table class="table">
     <tr>
         <th>
@@ -26,8 +40,15 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
+@foreach (var item in Model)
+{
+    var styleTla = "";
+    if (item.IsNonAnsweredInquiry == true)
+    {
+        styleTla = "font-weight:bold;";
+    }
+
+    <tr style="@styleTla">
         <td>
             @Html.DisplayFor(modelItem => item.Imie)
         </td>
@@ -41,9 +62,9 @@
             @Html.DisplayFor(modelItem => item.Email)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
         </td>
     </tr>
 }

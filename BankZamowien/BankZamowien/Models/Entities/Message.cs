@@ -12,6 +12,7 @@ namespace BankZamowien.Models.Entities
         public string Content { get; set; }
         public DateTime CreateMessageDate { get; set; }
         public int InquiryID { get; set; }
+        public bool IsClientMessage { get; set; }
         public virtual Inquiry Inquiry { get; set;}
 
     }
