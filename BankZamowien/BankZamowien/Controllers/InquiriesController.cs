@@ -78,7 +78,7 @@ namespace BankZamowien.Controllers
         {
             if (ModelState.IsValid)
             {
-                Client client = db.Clients.Where(c => (c.Imie == viewModel.Name) && (c.Nazwisko == viewModel.Surname)).SingleOrDefault();
+                Client client = db.Clients.SingleOrDefault(c => (c.Imie == viewModel.Name) && (c.Nazwisko == viewModel.Surname));
                 if(client == null)
                 {
                     client = new Client();
@@ -86,7 +86,7 @@ namespace BankZamowien.Controllers
                     client.Nazwisko = viewModel.Surname;
                     db.Clients.Add(client);
                     db.SaveChanges();
-                    client = db.Clients.Where(c => (c.Imie == viewModel.Name) && (c.Nazwisko == viewModel.Surname)).SingleOrDefault();
+                    client = db.Clients.SingleOrDefault(c => (c.Imie == viewModel.Name) && (c.Nazwisko == viewModel.Surname));
                 }
                 //db.Inquiries.Add(inquiry);
                 Inquiry inquiry = new Inquiry();

@@ -21,7 +21,7 @@ namespace BankZamowien.Controllers
             var clients = db.Clients.ToList();
             if (!String.IsNullOrWhiteSpace(searchString))
             {
-                clients = clients.Where(c => (c.Nazwisko.Contains(searchString)) || (c.Imie.Contains(searchString))).ToList();
+                clients = clients.Where(c => (c.Nazwisko.Contains(searchString)) || (c.Imie.Contains(searchString)) || (c.Email.Contains(searchString)) || (c.Telefon.Contains(searchString))).ToList();
             }
             if(search_OnlyNoAnswer)
             {
