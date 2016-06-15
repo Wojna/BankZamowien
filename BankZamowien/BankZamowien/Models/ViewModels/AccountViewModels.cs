@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BankZamowien.Models
@@ -57,6 +58,7 @@ namespace BankZamowien.Models
         public string Imie { get; set; }
         public string Nazwisko { get; set; }
        
+
     }
 
     public class LoginViewModel
@@ -73,6 +75,8 @@ namespace BankZamowien.Models
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
+
+        public int? NumberofPasswordResets { get; set; }
     }
 
     public class RegisterViewModel
@@ -100,7 +104,7 @@ namespace BankZamowien.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-       
+        
     }
 
     public class ResetPasswordViewModel
@@ -121,6 +125,8 @@ namespace BankZamowien.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
+
+        
         public string Code { get; set; }
     }
 
