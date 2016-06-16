@@ -4,16 +4,20 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.WebPages;
 using BankZamowien.DAL;
 using BankZamowien.Models;
 using BankZamowien.Models.Entities;
 using BankZamowien.Models.ViewModels;
-using BankZamowien.Models;
+using Microsoft.AspNet.Identity;
 
 namespace BankZamowien.Controllers
 {
+
     [Authorize]
     public class InquiriesController : Controller
     {
@@ -60,7 +64,53 @@ namespace BankZamowien.Controllers
             {
                 return HttpNotFound();
             }
+           
             return View(inquiry);
+        }
+
+        [HttpPost]
+        public ActionResult Details(string content,int ClientID, int InquiryID)
+        {
+            var mail = db.Clients.Where(c => c.Id == ClientID).Select(d => d.Email).FirstOrDefault();
+
+
+            var fromAddress = new MailAddress("do862947@gmail.com", "From Name");
+            var toAddress = new MailAddress(mail, "To Name");
+            const string fromPassword = "Haslo123$";
+            const string subject = "Subject";
+            string body = content;
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential("do862947@gmail.com", fromPassword)
+            };
+            using (var message = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = subject,
+                Body = body
+            })
+            {
+                smtp.Send(message);
+            }
+
+            var PrevMsg =
+                db.Messages.Where(c => c.InquiryID == InquiryID).OrderByDescending(c => c.CreateMessageDate).Select(c=> c.Id).FirstOrDefault();
+
+            Message msg = new Message();
+            msg.Content = content;
+            msg.PreviousMessage = PrevMsg;
+            msg.CreateMessageDate = DateTime.Now;
+            msg.InquiryID = InquiryID;
+            db.Messages.Add(msg);
+            db.SaveChanges();
+
+
+            return RedirectToAction("Details");
         }
 
         // GET: Inquiries/Create
