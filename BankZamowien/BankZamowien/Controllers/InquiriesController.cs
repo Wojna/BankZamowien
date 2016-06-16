@@ -15,6 +15,7 @@ using BankZamowien.Models.Entities;
 using BankZamowien.Models.ViewModels;
 using BankZamowien.Models;
 using System.Reflection;
+using Microsoft.Ajax.Utilities;
 
 namespace BankZamowien.Controllers
 {
@@ -83,7 +84,8 @@ namespace BankZamowien.Controllers
         {
             var mail = db.Clients.Where(c => c.Id == ClientID).Select(d => d.Email).FirstOrDefault();
 
-
+            if(!mail.IsNullOrWhiteSpace())
+            { 
             var fromAddress = new MailAddress("do862947@gmail.com", "From Name");
             var toAddress = new MailAddress(mail, "To Name");
             const string fromPassword = "Haslo123$";
@@ -107,7 +109,7 @@ namespace BankZamowien.Controllers
             {
                 smtp.Send(message);
             }
-
+            }
             var PrevMsg =
                 db.Messages.Where(c => c.InquiryID == InquiryID).OrderByDescending(c => c.CreateMessageDate).Select(c=> c.Id).FirstOrDefault();
 
