@@ -23,5 +23,6 @@ namespace BankZamowien.Models.ViewModels
         [DataType(DataType.MultilineText)]
         [Display(Name = "Treść zapytania")]
         public string Content { get; set; }
+        public ICollection<Client> Clients { get; set; }
     }
 }

@@ -18,6 +18,6 @@ namespace BankZamowien.Models.Entities
         [EmailAddress]
         public string Email { get; set; }
         public bool IsNonAnsweredInquiry { get; set; }
-        public virtual IEnumerable<Inquiry> InquiryList { get; set; }
+        public virtual ICollection<Inquiry> InquiryList { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace BankZamowien.Models.Entities
         public int ClientID { get; set; }
         public bool IsAnswered { get; set; }
         public virtual Client Client { get; set; }
-        public virtual IEnumerable<Message> MessageList { get; set;}
+        public virtual ICollection<Message> MessageList { get; set;}
     }
 
     public enum Priority

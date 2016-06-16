@@ -4,10 +4,10 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Szczegółowe informacje o kliencie</h2>
 
 <div>
-    <h4>Client</h4>
+    <h4>@Model.Imie @Model.Nazwisko</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -44,7 +44,31 @@
 
     </dl>
 </div>
+<h4>Lista zgłoszeń klienta</h4>
+<table class="table">
+    <tr>
+        <th>
+            Nr. referencyjny
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.InquiryList)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RefNumber)
+            </td>
+            <td>
+                @Html.ActionLink("Szczegóły", "Details", "Inquiries", new { id = item.Id }, new { })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edytuj", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Powrót do listy", "Index")
 </p>

@@ -66,7 +66,16 @@ namespace BankZamowien.Controllers
         // GET: Inquiries/Create
         public ActionResult Create(int? id)
         {
-            return View();
+            CreateInquiryViewModel viewModel = new CreateInquiryViewModel();
+            viewModel.Clients = new List<Client>();
+            viewModel.Clients = db.Clients.ToList();
+            if(id != null)
+            {
+                Client client = db.Clients.Find(id);
+                viewModel.Name = client.Imie;
+                viewModel.Surname = client.Nazwisko;
+            }
+            return View(viewModel);
         }
 
         // POST: Inquiries/Create

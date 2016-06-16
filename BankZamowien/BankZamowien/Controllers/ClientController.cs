@@ -37,7 +37,7 @@ namespace BankZamowien.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Client client = db.Clients.Find(id);
+            Client client = db.Clients.Include(c => c.InquiryList).Where(c => c.Id == id).FirstOrDefault();
             if (client == null)
             {
                 return HttpNotFound();
