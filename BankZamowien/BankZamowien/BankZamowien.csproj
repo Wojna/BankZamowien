@@ -213,6 +213,7 @@
     <Compile Include="Models\Entities\Client.cs" />
     <Compile Include="Models\Entities\Inquiry.cs" />
     <Compile Include="Models\Entities\Message.cs" />
+    <Compile Include="Models\ViewModels\Respond.cs" />
     <Compile Include="Models\ViewModels\CreateInquiryViewModel.cs" />
     <Compile Include="Models\ViewModels\InquiryListViewModel.cs" />
     <Compile Include="Models\ViewModels\ManageViewModels.cs" />
@@ -289,6 +290,7 @@
     <Content Include="Views\Inquiries\Edit.cshtml" />
     <Content Include="Views\Inquiries\Index.cshtml" />
     <Content Include="Views\Account\EmailActivation.cshtml" />
+    <Content Include="Views\Inquiries\_Msg.cshtml" />
     <None Include="Web.Ciapek.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
