@@ -101,15 +101,21 @@ namespace BankZamowien.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            
             var user = await UserManager.FindByNameAsync(model.Email);
-            if (await UserManager.IsEmailConfirmedAsync(user.Id))
+            if (user.EmailConfirmed)
             {
+                var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+
                 switch (result)
                 {
-                
                     case SignInStatus.Success:
-                        return RedirectToLocal(returnUrl);
+                        if (user.NumberofPasswordResets == null) //if true, that means user never changed their password before
+                        {
+                            return RedirectToAction("ChangePassword", "Manage");
+                        }
+                        return RedirectToAction("UserList");
+                        
                     case SignInStatus.LockedOut:
                         return View("Lockout");
                     case SignInStatus.RequiresVerification:
@@ -118,13 +124,19 @@ namespace BankZamowien.Controllers
                     default:
                         ModelState.AddModelError("", "Invalid login attempt.");
                         return View(model);
+
                 }
             }
-            else
-            {
-                return RedirectToAction("Index","Home");
-            }
+            return RedirectToAction("EmailActivation");
 
+
+        }
+
+
+        [AllowAnonymous]
+        public ActionResult EmailActivation()
+        {
+            return View();
         }
 
         //
@@ -235,7 +247,7 @@ namespace BankZamowien.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Imie = model.Imie, Nazwisko = model.Nazwisko };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Imie = model.Imie, Nazwisko = model.Nazwisko};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 
                 if (result.Succeeded)
@@ -302,10 +314,10 @@ namespace BankZamowien.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
@@ -346,6 +358,7 @@ namespace BankZamowien.Controllers
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+            //var costam = model.ResetPassword.Date;
             if (result.Succeeded)
             {
                 return RedirectToAction("ResetPasswordConfirmation", "Account");

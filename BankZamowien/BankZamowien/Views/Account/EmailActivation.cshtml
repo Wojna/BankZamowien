@@ -1,0 +1,13 @@
+﻿@using BankZamowien.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "No Email Activation";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+You must confirm your email adress.
+@Html.ActionLink("Back to Main", "Index","Home")
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

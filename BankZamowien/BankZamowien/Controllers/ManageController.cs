@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using BankZamowien.DAL;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -14,6 +15,7 @@ namespace BankZamowien.Controllers
     [Authorize]
     public class ManageController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -241,8 +243,13 @@ namespace BankZamowien.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
+                //model.NumberofPasswordResets=1;
+                var usr = db.Users.Single(e => e.Id == user.Id);
+                usr.NumberofPasswordResets = usr.NumberofPasswordResets++ ?? 1;
+                db.SaveChanges();
                 return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
             }
+            
             AddErrors(result);
             return View(model);
         }

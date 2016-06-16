@@ -195,6 +195,14 @@
     <Compile Include="DAL\IdentityMigrations\201606141026408_IdentityNewFields.Designer.cs">
       <DependentUpon>201606141026408_IdentityNewFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="DAL\IdentityMigrations\201606150942188_AccountCreationDate.cs" />
+    <Compile Include="DAL\IdentityMigrations\201606150942188_AccountCreationDate.Designer.cs">
+      <DependentUpon>201606150942188_AccountCreationDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\IdentityMigrations\201606151053434_PasswordChanges.cs" />
+    <Compile Include="DAL\IdentityMigrations\201606151053434_PasswordChanges.Designer.cs">
+      <DependentUpon>201606151053434_PasswordChanges.cs</DependentUpon>
+    </Compile>
     <Compile Include="DAL\IdentityMigrations\Configuration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -232,7 +240,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -278,6 +288,7 @@
     <Content Include="Views\Inquiries\Details.cshtml" />
     <Content Include="Views\Inquiries\Edit.cshtml" />
     <Content Include="Views\Inquiries\Index.cshtml" />
+    <Content Include="Views\Account\EmailActivation.cshtml" />
     <None Include="Web.Ciapek.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -312,6 +323,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DAL\IdentityMigrations\201606141026408_IdentityNewFields.resx">
       <DependentUpon>201606141026408_IdentityNewFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\IdentityMigrations\201606150942188_AccountCreationDate.resx">
+      <DependentUpon>201606150942188_AccountCreationDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\IdentityMigrations\201606151053434_PasswordChanges.resx">
+      <DependentUpon>201606151053434_PasswordChanges.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
