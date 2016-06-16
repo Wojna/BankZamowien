@@ -9,7 +9,7 @@ namespace BankZamowien.DAL.IdentityMigrations
         {
             AddColumn("dbo.AspNetUsers", "NumberofPasswordResets", c => c.Int());
             DropColumn("dbo.AspNetUsers", "CreationDate");
-            DropColumn("dbo.AspNetUsers", "ResetPassword");
+            
         }
         
         public override void Down()

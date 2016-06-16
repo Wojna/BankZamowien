@@ -11,6 +11,7 @@ using BankZamowien.Models;
 using BankZamowien.Models.Entities;
 using BankZamowien.Models.ViewModels;
 using BankZamowien.Models;
+using System.Reflection;
 
 namespace BankZamowien.Controllers
 {
@@ -22,15 +23,24 @@ namespace BankZamowien.Controllers
         // GET: Inquiries
         public ActionResult Index(string searchString, bool search_All = false)
         {
-            var inquiries = db.Inquiries.Include(i => i.Client);
-            if(!String.IsNullOrWhiteSpace(searchString))
+            List<Inquiry> inquiries = new List<Inquiry>();
+            inquiries = db.Inquiries.Include(i => i.Client).ToList();
+            if (!String.IsNullOrWhiteSpace(searchString))
             {
-                inquiries = inquiries.Where(i => (i.Client.Nazwisko.Contains(searchString)) || (i.Client.Imie.Contains(searchString)) || (i.Client.Email.Contains(searchString))
-                                                    || (i.Client.Telefon.Contains(searchString)) || (i.RefNumber.Contains(searchString)));
+                Type type = typeof(Client);
+                PropertyInfo[] properties = type.GetProperties();
+
+
+                inquiries = inquiries.Where(i => i.Client.GetType().GetProperty(properties[1].Name).GetValue(i.Client, null).ToString().Contains(searchString) ||
+                                                i.Client.GetType().GetProperty(properties[2].Name).GetValue(i.Client, null).ToString().Contains(searchString) ||
+                                                (i.Client.GetType().GetProperty(properties[3].Name).GetValue(i.Client, null) != null && i.Client.GetType().GetProperty(properties[3].Name).GetValue(i.Client, null).ToString().Contains(searchString)) ||
+                                                (i.Client.GetType().GetProperty(properties[4].Name).GetValue(i.Client, null) != null && i.Client.GetType().GetProperty(properties[4].Name).GetValue(i.Client, null).ToString().Contains(searchString)) ||
+                                                i.RefNumber.Contains(searchString)).ToList();
+                
             }
             if(!search_All)
             {
-                inquiries = inquiries.Where(i => (i.IsAnswered == false));
+                inquiries = inquiries.Where(i => (i.IsAnswered == false)).ToList();
             }
             List<InquiryListViewModel> viewModel = new List<InquiryListViewModel>();
             foreach(var item in inquiries)

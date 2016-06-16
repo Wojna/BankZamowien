@@ -52,7 +52,14 @@
 
     </dl>
 </div>
-<p>
+    @foreach (var item in Model.MessageList)
+    {
+        <div class="@(item.IsClientMessage ? "conversation-ask" : "conversation-respond")">
+            @item.Content
+        </div>
+    }
+
+<p style="clear:both">
     @Html.ActionLink("Edytuj", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Powró do listy", "Index")
+    @Html.ActionLink("Powrót do listy", "Index")
 </p>

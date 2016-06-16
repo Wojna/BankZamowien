@@ -34,3 +34,27 @@ textarea {
 .priorytet-Green{
     background-color:lightgreen
 }
+
+.conversation-ask {
+    border-width: 2px;
+    border-style: solid;
+    border-color: cornflowerblue;
+    padding: 10px;
+    margin: 10px;
+    background-color:azure;
+    border-radius: 5px;
+    width:70%;
+    float:left;
+}
+
+.conversation-respond {
+    border-width: 2px;
+    border-style: solid;
+    border-color: lightgreen;
+    padding: 10px;
+    margin: 10px;
+    background-color:azure;
+    border-radius: 5px;
+    width:70%;
+    float:right;
+}
