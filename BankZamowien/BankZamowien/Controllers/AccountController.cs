@@ -114,7 +114,7 @@ namespace BankZamowien.Controllers
                         {
                             return RedirectToAction("ChangePassword", "Manage");
                         }
-                        return RedirectToAction("UserList");
+                        return RedirectToLocal(returnUrl);
                         
                     case SignInStatus.LockedOut:
                         return View("Lockout");

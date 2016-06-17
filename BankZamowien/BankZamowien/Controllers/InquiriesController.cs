@@ -29,18 +29,22 @@ namespace BankZamowien.Controllers
         {
             List<Inquiry> inquiries = new List<Inquiry>();
             inquiries = db.Inquiries.Include(i => i.Client).ToList();
+
             if (!String.IsNullOrWhiteSpace(searchString))
             {
                 Type type = typeof(Client);
                 PropertyInfo[] properties = type.GetProperties();
+                var counter = Enumerable.Range(1, (properties.Length - 2)).ToList();
+                inquiries = inquiries.Where(i => counter.Any(p => (i.Client.GetType().GetProperty(properties[p].Name).GetValue(i.Client, null) != null 
+                                        && i.Client.GetType().GetProperty(properties[p].Name).GetValue(i.Client, null).ToString().Contains(searchString))) 
+                                        || i.RefNumber.Contains(searchString)).ToList();     
 
+                //inquiries = inquiries.Where(i => i.Client.GetType().GetProperty(properties[1].Name).GetValue(i.Client, null).ToString().Contains(searchString) ||
+                //                                i.Client.GetType().GetProperty(properties[2].Name).GetValue(i.Client, null).ToString().Contains(searchString) ||
+                //                                (i.Client.GetType().GetProperty(properties[3].Name).GetValue(i.Client, null) != null && i.Client.GetType().GetProperty(properties[3].Name).GetValue(i.Client, null).ToString().Contains(searchString)) ||
+                //                                (i.Client.GetType().GetProperty(properties[4].Name).GetValue(i.Client, null) != null && i.Client.GetType().GetProperty(properties[4].Name).GetValue(i.Client, null).ToString().Contains(searchString)) ||
+                //                                i.RefNumber.Contains(searchString)).ToList();
 
-                inquiries = inquiries.Where(i => i.Client.GetType().GetProperty(properties[1].Name).GetValue(i.Client, null).ToString().Contains(searchString) ||
-                                                i.Client.GetType().GetProperty(properties[2].Name).GetValue(i.Client, null).ToString().Contains(searchString) ||
-                                                (i.Client.GetType().GetProperty(properties[3].Name).GetValue(i.Client, null) != null && i.Client.GetType().GetProperty(properties[3].Name).GetValue(i.Client, null).ToString().Contains(searchString)) ||
-                                                (i.Client.GetType().GetProperty(properties[4].Name).GetValue(i.Client, null) != null && i.Client.GetType().GetProperty(properties[4].Name).GetValue(i.Client, null).ToString().Contains(searchString)) ||
-                                                i.RefNumber.Contains(searchString)).ToList();
-                
             }
             if(!search_All)
             {
@@ -79,7 +83,7 @@ namespace BankZamowien.Controllers
         }
 
         [HttpPost]
-        public ActionResult Details(string content,int ClientID, int InquiryID)
+        public ActionResult Details(string content,int ClientID, int InquiryID, bool isClientMsg = false)
         {
             var mail = db.Clients.Where(c => c.Id == ClientID).Select(d => d.Email).FirstOrDefault();
 
@@ -116,6 +120,7 @@ namespace BankZamowien.Controllers
             msg.PreviousMessage = PrevMsg;
             msg.CreateMessageDate = DateTime.Now;
             msg.InquiryID = InquiryID;
+            msg.IsClientMessage = isClientMsg;
             db.Messages.Add(msg);
             db.SaveChanges();
 
@@ -129,6 +134,7 @@ namespace BankZamowien.Controllers
             CreateInquiryViewModel viewModel = new CreateInquiryViewModel();
             viewModel.Clients = new List<Client>();
             viewModel.Clients = db.Clients.ToList();
+            viewModel.ExpireDate = DateTime.Now;
             if(id != null)
             {
                 Client client = db.Clients.Find(id);
@@ -178,6 +184,7 @@ namespace BankZamowien.Controllers
                 msg.Content = viewModel.Content;
                 msg.PreviousMessage = null;
                 msg.CreateMessageDate = DateTime.Now;
+                msg.IsClientMessage = true;
                 inquiry.MessageList = new List<Message>();
                 inquiry.MessageList.ToList().Add(msg);
                 client.IsNonAnsweredInquiry = true;
@@ -199,6 +206,7 @@ namespace BankZamowien.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Inquiry inquiry = db.Inquiries.Find(id);
+            inquiry.ExpireDate = inquiry.ExpireDate.Date;
             if (inquiry == null)
             {
                 return HttpNotFound();

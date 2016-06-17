@@ -13,9 +13,12 @@ namespace BankZamowien.Models.Entities
         [Display(Name = "Priorytet")]
         public Priority Priority { get; set; }
         [Display(Name="Termin")]
+
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = " {0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime ExpireDate { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime CreateInquiryDate { get; set; }
         public int ClientID { get; set; }
         public bool IsAnswered { get; set; }

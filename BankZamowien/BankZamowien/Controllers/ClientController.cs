@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using BankZamowien.DAL;
 using BankZamowien.Models.Entities;
+using System.Reflection;
 
 namespace BankZamowien.Controllers
 {
@@ -18,10 +19,18 @@ namespace BankZamowien.Controllers
         // GET: Client
         public ActionResult Index(string searchString, bool search_OnlyNoAnswer = false)
         {
-            var clients = db.Clients.ToList();
+            var clients = new List<Client>();
+            clients = db.Clients.ToList();
+
             if (!String.IsNullOrWhiteSpace(searchString))
             {
-                clients = clients.Where(c => (c.Nazwisko.Contains(searchString)) || (c.Imie.Contains(searchString)) || (c.Email.Contains(searchString)) || (c.Telefon.Contains(searchString))).ToList();
+                Type type = typeof(Client);
+                PropertyInfo[] properties = type.GetProperties();
+                var counter = Enumerable.Range(1, (properties.Length - 2)).ToList();
+                clients = clients.Where(i => counter.Any(p => (i.GetType().GetProperty(properties[p].Name).GetValue(i, null) != null
+                                        && i.GetType().GetProperty(properties[p].Name).GetValue(i, null).ToString().Contains(searchString)))).ToList();
+
+                //clients = clients.Where(c => (c.Nazwisko.Contains(searchString)) || (c.Imie.Contains(searchString)) || (c.Email.Contains(searchString)) || (c.Telefon.Contains(searchString))).ToList();
             }
             if(search_OnlyNoAnswer)
             {

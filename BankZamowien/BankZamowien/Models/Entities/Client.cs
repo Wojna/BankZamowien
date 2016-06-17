@@ -14,6 +14,8 @@ namespace BankZamowien.Models.Entities
         [Required]
         public string Nazwisko { get; set; }
         [DataType(DataType.PhoneNumber)]
+        [MaxLength(12)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:###-##-####}")]
         public string Telefon { get; set; }
         [EmailAddress]
         public string Email { get; set; }

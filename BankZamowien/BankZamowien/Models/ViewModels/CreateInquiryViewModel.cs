@@ -14,7 +14,7 @@ namespace BankZamowien.Models.ViewModels
         [Display(Name = "Termin")]
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = " {0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime ExpireDate { get; set; }
         [Display(Name = "Imie")]
         public string Name { get; set; }

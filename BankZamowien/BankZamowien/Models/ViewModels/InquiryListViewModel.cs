@@ -19,6 +19,7 @@ namespace BankZamowien.Models
         public string Surname { get; set; }
         [Display(Name = "Telefon")]
         [DataType(DataType.PhoneNumber)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:###-##-####}")]
         public string PhoneNumber { get; set; }
         [EmailAddress]
         [Display(Name = "E-mail")]

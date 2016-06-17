@@ -185,6 +185,10 @@
     <Compile Include="DAL\BankMigrations\201606141151197_AddClientAnswered.Designer.cs">
       <DependentUpon>201606141151197_AddClientAnswered.cs</DependentUpon>
     </Compile>
+    <Compile Include="DAL\BankMigrations\201606170758380_PhoneNumberFormat.cs" />
+    <Compile Include="DAL\BankMigrations\201606170758380_PhoneNumberFormat.Designer.cs">
+      <DependentUpon>201606170758380_PhoneNumberFormat.cs</DependentUpon>
+    </Compile>
     <Compile Include="DAL\BankMigrations\Configuration.cs" />
     <Compile Include="DAL\BankZamowienDbContext.cs" />
     <Compile Include="DAL\IdentityMigrations\201606140655071_InitialCreate.cs" />
@@ -319,6 +323,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DAL\BankMigrations\201606141151197_AddClientAnswered.resx">
       <DependentUpon>201606141151197_AddClientAnswered.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\BankMigrations\201606170758380_PhoneNumberFormat.resx">
+      <DependentUpon>201606170758380_PhoneNumberFormat.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DAL\IdentityMigrations\201606140655071_InitialCreate.resx">
       <DependentUpon>201606140655071_InitialCreate.cs</DependentUpon>
