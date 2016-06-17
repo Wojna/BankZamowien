@@ -9,7 +9,7 @@ namespace BankZamowien.Models.ViewModels
 {
     public class Respond
     {
-        //public Inquiry Inquiry { get; set; }
+       
 
         [DataType(DataType.MultilineText)]
         public string Content { get; set; }
