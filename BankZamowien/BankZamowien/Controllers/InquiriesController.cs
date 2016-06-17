@@ -85,20 +85,21 @@ namespace BankZamowien.Controllers
         [HttpPost]
         public ActionResult Details(string content,int ClientID, int InquiryID, bool isClientMsg = false)
         {
-            var mail = db.Clients.Where(c => c.Id == ClientID).Select(d => d.Email).FirstOrDefault();
-
-            if(!mail.IsNullOrWhiteSpace())
-               { 
-                    SendMail(content,mail);
-               }
-
-            var phone = db.Clients.Where(c => c.Id == ClientID).Select(d => d.Telefon).FirstOrDefault();
-
-            if (!phone.IsNullOrWhiteSpace())
+            if (!isClientMsg)
             {
-                SendSms(content,phone);
+                var mail = db.Clients.Where(c => c.Id == ClientID).Select(d => d.Email).FirstOrDefault();
+                if (!mail.IsNullOrWhiteSpace())
+                {
+                    SendMail(content, mail);
+                }
+
+                var phone = db.Clients.Where(c => c.Id == ClientID).Select(d => d.Telefon).FirstOrDefault();
+
+                if (!phone.IsNullOrWhiteSpace())
+                {
+                    SendSms(content, phone);
+                }
             }
-            
             var PrevMsg =
                 db.Messages.Where(c => c.InquiryID == InquiryID).OrderByDescending(c => c.CreateMessageDate).Select(c=> c.Id).FirstOrDefault();
 
@@ -107,6 +108,7 @@ namespace BankZamowien.Controllers
             msg.PreviousMessage = PrevMsg;
             msg.CreateMessageDate = DateTime.Now;
             msg.InquiryID = InquiryID;
+            msg.IsClientMessage = isClientMsg;
             db.Messages.Add(msg);
             db.SaveChanges();
 
