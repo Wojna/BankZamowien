@@ -1,25 +1,26 @@
 ﻿@model BankZamowien.Models.ViewModels.Respond
 @using (Html.BeginForm("Details","Inquiries"))
 {
+    <hr/>
     <div class="form-horizontal">
         <h4>Odpowiedz klientowi</h4>
         <div style="display:inline">
             <div class="form-group">
-                @Html.LabelFor(model => model.Content, "Treść", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Content, "Treść", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
-                </div>
-                @Html.HiddenFor(model => model.ClientID)
-                @Html.HiddenFor(model => model.InquiryID)
             </div>
+                    @Html.HiddenFor(model => model.ClientID)
+                    @Html.HiddenFor(model => model.InquiryID)
+        </div>
             <div>
                 <label>Odpowiedź klienta</label>
                 @Html.CheckBox("isClientMsg")
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-2 col-md-10">
+            <div class="col-md-2 col-md-10" style="margin-left:480px">
                 <input type="submit" value="Dodaj zgłoszenie" class="btn btn-default" />
             </div>
         </div>

@@ -20,14 +20,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Client.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Client.Email)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.RefNumber)
         </dt>
 
@@ -72,7 +64,7 @@
 @Html.Partial("_Msg",new Respond
 {
     ClientID = Model.ClientID,
-    InquiryID = Model.Id
+    InquiryID = Model.Id,    
 })
 
 <p>
